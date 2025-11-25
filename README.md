@@ -32,6 +32,22 @@ This project has Tailwind CSS configured. Key notes:
 - `tailwind.config.js` contains content paths for `pages`, `components` and `app`, plus class-based dark mode and a small theme extension.
 - A demo page is available at `/tailwind-demo` and a reusable `Hero` component is available in `components/Hero.tsx`.
 
+## Supabase (Auth)
+
+This project includes starter scaffolding for Supabase Authentication.
+
+- Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` to a local `.env.local` file (see `.env.local.example`).
+- The file `lib/supabaseClient.ts` creates a Supabase client using these env variables.
+- AuthProvider (`components/AuthProvider.tsx`) exposes `useAuth()` which provides `user`, `signIn`, `signUp`, and `signOut`.
+- Pages provided: `/login` and `/signup` (simple forms that use Supabase's auth methods).
+
+To try it locally with a real Supabase project:
+
+1. Create a Supabase project at https://app.supabase.com.
+2. Copy the project URL and anon key into `.env.local` (see `.env.local.example`).
+3. Restart the dev server (npm run dev) so env vars are picked up.
+
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
