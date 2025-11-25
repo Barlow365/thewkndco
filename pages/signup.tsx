@@ -17,7 +17,7 @@ export default function SignupPage() {
     setMessage(null)
     const { data, error } = await signUp(email, password)
     setLoading(false)
-    if (error) setMessage(error.message)
+    if (error) setMessage(error.message ?? 'Sign up failed')
     else setMessage('Sign up successful — check your email for confirmation')
     if (data) router.push('/')
   }
@@ -26,7 +26,7 @@ export default function SignupPage() {
     <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-black text-white">
       <div className="w-full max-w-md rounded-2xl border border-white/5 bg-zinc-900/80 p-6">
         <h2 className="text-xl font-semibold mb-2">Create an account</h2>
-        <p className="text-xs text-white/60 mb-4">Sign up with email + password — you'll be redirected after confirmation.</p>
+        <p className="text-xs text-white/60 mb-4">Sign up with email + password — you will be redirected after confirmation.</p>
         <form onSubmit={handleSubmit} className="space-y-3">
           <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" className="w-full rounded-md px-3 py-2 bg-transparent border border-white/10" />
           <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" className="w-full rounded-md px-3 py-2 bg-transparent border border-white/10" />

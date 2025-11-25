@@ -17,7 +17,7 @@ export default function LoginPage() {
     setError(null)
     const { error: err } = await signIn(email, password)
     setLoading(false)
-    if (err) setError(err.message)
+    if (err) setError(err.message ?? 'Sign in failed')
     else router.push('/')
   }
 

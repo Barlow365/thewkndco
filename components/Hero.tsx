@@ -1,6 +1,27 @@
 import React from 'react'
+import Link from 'next/link'
 
-const Hero: React.FC = () => {
+type HeroProps = {
+  title?: string
+  subtitle?: string
+  ctaLabel?: string
+}
+
+const Hero: React.FC<HeroProps> = ({ title, subtitle, ctaLabel }) => {
+  // If simple props are provided, render a compact hero useful for demos
+  if (title) {
+    return (
+      <section className="py-12 bg-gradient-to-b from-black via-zinc-950 to-black">
+        <div className="mx-auto max-w-3xl px-6 text-center">
+          <h1 className="text-3xl font-extrabold text-white sm:text-4xl">{title}</h1>
+          {subtitle && <p className="mt-4 text-sm text-white/70">{subtitle}</p>}
+          <div className="mt-6 flex justify-center gap-3">
+            <Link href="/tailwind-demo" className="rounded-full bg-indigo-600 px-5 py-2 text-sm text-white">{ctaLabel ?? 'Explore'}</Link>
+          </div>
+        </div>
+      </section>
+    )
+  }
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-black via-zinc-950 to-black">
       {/* Glow background */}
@@ -25,8 +46,8 @@ const Hero: React.FC = () => {
           </p>
 
           <div className="flex flex-wrap items-center gap-3">
-            <a href="/signup" className="rounded-full bg-white px-5 py-2 text-xs font-semibold text-black shadow-lg hover:bg-zinc-100">Build my next trip</a>
-            <a href="/tailwind-demo" className="rounded-full border border-white/20 px-5 py-2 text-xs font-semibold text-white/80 hover:border-white/40 hover:text-white">Preview concierge flow</a>
+            <Link href="/signup" className="rounded-full bg-white px-5 py-2 text-xs font-semibold text-black shadow-lg hover:bg-zinc-100">Build my next trip</Link>
+            <Link href="/tailwind-demo" className="rounded-full border border-white/20 px-5 py-2 text-xs font-semibold text-white/80 hover:border-white/40 hover:text-white">Preview concierge flow</Link>
             <p className="text-xs text-white/50">No public launch yet. Invite-only for now.</p>
           </div>
         </div>
