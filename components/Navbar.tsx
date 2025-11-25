@@ -49,22 +49,16 @@ function AuthArea() {
   if (!user)
     return (
       <>
-        <Link href="/login">
-          <a className="rounded-full border border-white/20 px-4 py-1.5 text-xs font-medium text-white/80 hover:border-white/40 hover:text-white">Log in</a>
-        </Link>
+        <Link href="/login" className="rounded-full border border-white/20 px-4 py-1.5 text-xs font-medium text-white/80 hover:border-white/40 hover:text-white">Log in</Link>
         <Link href="/signup">
-          <a>
-            <Button variant="primary">Get access</Button>
-          </a>
+          <Button variant="primary">Get access</Button>
         </Link>
       </>
     )
 
   return (
     <div className="flex items-center gap-3">
-      <Link href="/dashboard">
-        <a className="text-xs text-white/90 hover:text-white">{user.email ?? 'Account'}</a>
-      </Link>
+      <Link href="/dashboard" className="text-xs text-white/90 hover:text-white">{user.email ?? 'Account'}</Link>
       <button onClick={() => signOut()} className="text-xs text-white/60 hover:text-white/80">Sign out</button>
     </div>
   )
