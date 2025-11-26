@@ -4,12 +4,19 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/AuthProvider'
 
 export default function DashboardPage() {
-  const { user } = useAuth()
+  const { user, loading } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
-    if (!user) router.push('/login')
-  }, [user, router])
+    // If we finished loading and there's no user, redirect to login
+    if (!loading && !user) router.push('/login')
+  }, [user, loading, router])
+
+  if (loading) return (
+    <div className="min-h-screen flex items-center justify-center p-8 bg-black text-white">
+      <div className="max-w-md w-full text-center">Loading...</div>
+    </div>
+  )
 
   if (!user) return null
 

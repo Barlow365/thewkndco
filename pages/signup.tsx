@@ -1,26 +1,30 @@
 "use client"
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/AuthProvider'
 
 export default function SignupPage() {
-  const { signUp } = useAuth()
+  const { signUp, user, loading } = useAuth()
   const router = useRouter()
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
   const [message, setMessage] = useState<string | null>(null)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    setLoading(true)
+    setSubmitting(true)
     setMessage(null)
     const { data, error } = await signUp(email, password)
-    setLoading(false)
+    setSubmitting(false)
     if (error) setMessage(error.message ?? 'Sign up failed')
     else setMessage('Sign up successful — check your email for confirmation')
     if (data) router.push('/')
   }
+
+  useEffect(() => {
+    if (!loading && user) router.push('/dashboard')
+  }, [user, loading, router])
 
   return (
     <div className="min-h-screen flex items-center justify-center px-4 py-12 bg-black text-white">
@@ -31,7 +35,7 @@ export default function SignupPage() {
           <input value={email} onChange={(e) => setEmail(e.target.value)} type="email" placeholder="Email" className="w-full rounded-md px-3 py-2 bg-transparent border border-white/10" />
           <input value={password} onChange={(e) => setPassword(e.target.value)} type="password" placeholder="Password" className="w-full rounded-md px-3 py-2 bg-transparent border border-white/10" />
           {message && <div className="text-xs text-rose-400">{message}</div>}
-          <button type="submit" className="rounded-full bg-brand-500 px-5 py-2 text-xs font-semibold text-white w-full">{loading ? 'Creating...' : 'Create account'}</button>
+          <button type="submit" className="rounded-full bg-brand-500 px-5 py-2 text-xs font-semibold text-white w-full">{submitting ? 'Creating...' : 'Create account'}</button>
         </form>
       </div>
     </div>

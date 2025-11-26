@@ -37,6 +37,8 @@ This project has Tailwind CSS configured. Key notes:
 This project includes starter scaffolding for Supabase Authentication.
 
 - Add `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` to a local `.env.local` file (see `.env.local.example`).
+	- New Supabase projects may surface a `publishable` key (example: `sb_publishable_...`) — that value is safe for frontend use and should be copied into `NEXT_PUBLIC_SUPABASE_ANON_KEY`.
+	- A `.env.local.example` file is included in the repo to show expected keys. Do not commit `.env.local` itself — `.gitignore` already ignores it.
 - The file `lib/supabaseClient.ts` creates a Supabase client using these env variables.
 - AuthProvider (`components/AuthProvider.tsx`) exposes `useAuth()` which provides `user`, `signIn`, `signUp`, and `signOut`.
 - Pages provided: `/login` and `/signup` (simple forms that use Supabase's auth methods).
