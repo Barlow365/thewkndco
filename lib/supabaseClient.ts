@@ -16,7 +16,12 @@ if (supabaseUrl && supabaseAnonKey) {
 	const stub = {
 		auth: {
 			getSession: async (): Promise<{ data: { session: null } }> => ({ data: { session: null } }),
-			onAuthStateChange: (_event: unknown, _callback: (...args: unknown[]) => void) => ({ data: { subscription: { unsubscribe(): void {} } } }),
+			onAuthStateChange: (_event: unknown, _callback: (...args: unknown[]) => void) => {
+				// reference the parameters so linters don't report unused vars in the stub
+				void _event;
+				void _callback;
+				return { data: { subscription: { unsubscribe(): void {} } } }
+			},
 			signInWithPassword: async (): Promise<{ data: null; error: { message: string } | null }> => ({ data: null, error: { message: 'Supabase not configured' } }),
 			signUp: async (): Promise<{ data: null; error: { message: string } | null }> => ({ data: null, error: { message: 'Supabase not configured' } }),
 			signOut: async (): Promise<{ data: null; error: null }> => ({ error: null, data: null }),
