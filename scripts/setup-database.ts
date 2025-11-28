@@ -61,13 +61,15 @@ async function executeMigration() {
 
   // Note: Supabase JS client doesn't support raw SQL execution directly
   // We need to use the SQL endpoint via fetch
+  const headers: HeadersInit = {
+    'Content-Type': 'application/json',
+    'apikey': supabaseServiceKey!,
+    'Authorization': `Bearer ${supabaseServiceKey!}`
+  }
+
   const response = await fetch(`${supabaseUrl}/rest/v1/rpc/exec_sql`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'apikey': supabaseServiceKey,
-      'Authorization': `Bearer ${supabaseServiceKey}`
-    },
+    headers,
     body: JSON.stringify({ query: sql })
   })
 
