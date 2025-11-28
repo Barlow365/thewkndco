@@ -43,6 +43,10 @@ This project includes starter scaffolding for Supabase Authentication.
 - AuthProvider (`components/AuthProvider.tsx`) exposes `useAuth()` which provides `user`, `signIn`, `signUp`, and `signOut`.
 - Pages provided: `/login` and `/signup` (simple forms that use Supabase's auth methods).
 
+Server-side protection
+- A `middleware.ts` file is included which uses Supabase cookies (via `@supabase/auth-helpers-nextjs`) to protect server-side routes such as `/dashboard`.
+- When a user is not authenticated the middleware redirects them to `/login` and appends a `redirect` query parameter for returning them after sign-in.
+
 To try it locally with a real Supabase project:
 
 1. Create a Supabase project at https://app.supabase.com.

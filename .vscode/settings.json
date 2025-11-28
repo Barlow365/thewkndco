@@ -1,0 +1,49 @@
+{
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "files.exclude": {
+    "**/.git": false,
+    "**/.next": true,
+    "**/node_modules": true
+  },
+  "search.exclude": {
+    "**/node_modules": true,
+    "**/.next": true
+  },
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "typescript.enablePromptUseWorkspaceTsdk": true,
+
+  // AI Assistant Configuration
+  "ai.deployment": {
+    "platform": "vercel",
+    "domain": "www.partywknd.com",
+    "projectPath": "Desktop/WKND_CO/3_CODEBASE/frontend"
+  },
+
+  // Quick Commands
+  "terminal.integrated.profiles.windows": {
+    "PowerShell": {
+      "source": "PowerShell",
+      "icon": "terminal-powershell",
+      "args": ["-NoExit", "-Command", "Write-Host 'WKND_CO Development Environment' -ForegroundColor Cyan; Write-Host 'Quick Commands:' -ForegroundColor Yellow; Write-Host '  npm run dev     - Start development server'; Write-Host '  npm run build   - Build for production'; Write-Host '  npm run setup   - Setup database'; Write-Host '  vercel --prod   - Deploy to production'; Write-Host ''"]
+    }
+  },
+
+  // File associations
+  "files.associations": {
+    "*.css": "tailwindcss",
+    ".env.local": "dotenv"
+  },
+
+  // Recommended extensions
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "bradlc.vscode-tailwindcss",
+    "GitHub.copilot",
+    "ms-vscode.vscode-typescript-next"
+  ]
+}
