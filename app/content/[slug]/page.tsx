@@ -4,6 +4,7 @@ import { createClient } from '@/lib/supabase/server'
 import { getCurrentUserProfile, getContentBySlug } from '@/app/actions/profile'
 import { ContentLock } from '@/components/paywall/ContentLock'
 import { getTierDisplayName, getTierBadgeClasses } from '@/lib/subscription/utils'
+import { MarkdownContent } from '@/components/content/MarkdownContent'
 
 interface ContentPageProps {
   params: Promise<{
@@ -116,13 +117,7 @@ export default async function ContentDetailPage({ params }: ContentPageProps) {
               contentPreview={contentPreview}
               showPreview={true}
             >
-              <div className="prose prose-invert max-w-none">
-                {content.content.split('\n\n').map((paragraph, index) => (
-                  <p key={index} className="mb-4 text-white/80 leading-relaxed">
-                    {paragraph}
-                  </p>
-                ))}
-              </div>
+              <MarkdownContent content={content.content} />
             </ContentLock>
           </div>
 
