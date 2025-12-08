@@ -1,116 +1,102 @@
-﻿import { NextRequest, NextResponse } from "next/server";
-import { spawn } from "child_process";
+import { NextRequest, NextResponse } from "next/server";
 
-const EXECUTION_TIMEOUT_MS = 4000;
+const PRINT_LITERAL_REGEX = /print\s*\(\s*["']([^"']*)["']\s*\)/;
 
-type ExecutionResult = {
+type SimulationResult = {
   stdout: string;
   stderr: string;
   exitCode: number;
+  success: boolean;
 };
 
-function runPython(interpreter: string, code: string): Promise<ExecutionResult> {
-  return new Promise((resolve, reject) => {
-    let stdout = "";
-    let stderr = "";
-    let settled = false;
-
-    const child = spawn(interpreter, ["-c", code], {
-      env: process.env,
-    });
-
-    const onComplete = (result: ExecutionResult) => {
-      if (settled) return;
-      settled = true;
-      clearTimeout(timeout);
-      resolve(result);
+function simulatePython(code: string): SimulationResult {
+  const trimmed = code.trim();
+  if (!trimmed) {
+    return {
+      stdout: "",
+      stderr: "SyntaxError: empty code block",
+      exitCode: 1,
+      success: false,
     };
-
-    const onFailure = (error: Error) => {
-      if (settled) return;
-      settled = true;
-      clearTimeout(timeout);
-      reject(error);
-    };
-
-    const timeout = setTimeout(() => {
-      if (settled) return;
-      stderr += stderr ? "\n" : "";
-      stderr += "Execution timed out.";
-      child.kill("SIGTERM");
-      onComplete({ stdout, stderr, exitCode: 1 });
-    }, EXECUTION_TIMEOUT_MS);
-
-    child.stdout.on("data", (chunk) => {
-      stdout += chunk.toString();
-    });
-
-    child.stderr.on("data", (chunk) => {
-      stderr += chunk.toString();
-    });
-
-    child.on("error", onFailure);
-    child.on("close", (code) => {
-      onComplete({ stdout, stderr, exitCode: typeof code === "number" ? code : 0 });
-    });
-  });
-}
-
-async function tryInterpreters(code: string[]): Promise<ExecutionResult> {
-  const interpreters = Array.from(new Set([
-    process.env.PYTHON_BIN,
-    "python3",
-    "python",
-  ].filter(Boolean))) as string[];
-
-  let lastError: Error | null = null;
-  for (const interpreter of interpreters) {
-    try {
-      return await runPython(interpreter, code.join("\n"));
-    } catch (error) {
-      lastError = error instanceof Error ? error : new Error("Unknown interpreter error");
-    }
   }
-  return Promise.reject(lastError ?? new Error("No Python interpreter available"));
+
+  if (/pritn\s*\(/.test(code)) {
+    return {
+      stdout: "",
+      stderr: "NameError: name 'pritn' is not defined",
+      exitCode: 1,
+      success: false,
+    };
+  }
+
+  const literalMatch = code.match(PRINT_LITERAL_REGEX);
+  if (literalMatch) {
+    return {
+      stdout: literalMatch[1],
+      stderr: "",
+      exitCode: 0,
+      success: true,
+    };
+  }
+
+  if (/print\s*\(/.test(code)) {
+    return {
+      stdout: "",
+      stderr: "SyntaxError: invalid print statement",
+      exitCode: 1,
+      success: false,
+    };
+  }
+
+  return {
+    stdout: "",
+    stderr: "RuntimeError: simulated execution does not support this snippet",
+    exitCode: 1,
+    success: false,
+  };
 }
 
 export async function POST(request: NextRequest) {
   let payload: unknown;
   try {
     payload = await request.json();
-  } catch (error) {
+  } catch {
     return NextResponse.json(
-      { stdout: "", stderr: "Invalid JSON payload.", exitCode: 1 },
+      {
+        stdout: "",
+        stderr: "Invalid JSON payload.",
+        exitCode: 1,
+        success: false,
+      },
       { status: 400 }
     );
   }
 
   if (typeof payload !== "object" || payload === null) {
     return NextResponse.json(
-      { stdout: "", stderr: "Payload must be an object.", exitCode: 1 },
+      {
+        stdout: "",
+        stderr: "Payload must be an object.",
+        exitCode: 1,
+        success: false,
+      },
       { status: 400 }
     );
   }
 
   const body = payload as Record<string, unknown>;
-  const code = typeof body.code === "string" ? body.code : "";
-
-  if (!code.trim()) {
+  if (typeof body.code !== "string") {
     return NextResponse.json(
-      { stdout: "", stderr: "Code snapshot is empty.", exitCode: 1 },
+      {
+        stdout: "",
+        stderr: "'code' must be a string.",
+        exitCode: 1,
+        success: false,
+      },
       { status: 400 }
     );
   }
 
-  try {
-    const result = await tryInterpreters(code.split("\n"));
-    return NextResponse.json(result);
-  } catch (error) {
-    const message =
-      error instanceof Error ? error.message : "Failed to execute Python code.";
-    return NextResponse.json(
-      { stdout: "", stderr: message, exitCode: 1 },
-      { status: 500 }
-    );
-  }
+  const result = simulatePython(body.code);
+  return NextResponse.json(result);
 }
