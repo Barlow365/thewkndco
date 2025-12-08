@@ -1,18 +1,37 @@
-﻿import { useState } from "react";
+import { useState } from "react";
 import { DEFAULT_SNIPPET, Editor } from "@/components/Editor";
+import { OutputPanel } from "@/components/OutputPanel";
+
+type ResultState = {
+  stdout: string;
+  stderr: string;
+  exitCode: number | null;
+  success: boolean | null;
+};
 
 export default function HomePage() {
   const [code, setCode] = useState(DEFAULT_SNIPPET);
   const [isRunning, setIsRunning] = useState(false);
   const [statusMessage, setStatusMessage] = useState("Idle");
-  const [stdout, setStdout] = useState("Awaiting execution...");
-  const [stderr, setStderr] = useState("");
+  const [result, setResult] = useState<ResultState>({
+    stdout: "Awaiting execution...",
+    stderr: "",
+    exitCode: null,
+    success: null,
+  });
+  const [networkError, setNetworkError] = useState("");
 
   const handleRunClick = async () => {
     setIsRunning(true);
     setStatusMessage("Running code...");
-    setStdout("Sending code to execution service...");
-    setStderr("");
+    setResult((prev) => ({
+      ...prev,
+      stdout: "Sending code to execution service...",
+      stderr: "",
+      exitCode: null,
+      success: null,
+    }));
+    setNetworkError("");
 
     try {
       const response = await fetch("/api/run-python", {
@@ -23,24 +42,38 @@ export default function HomePage() {
         body: JSON.stringify({ code }),
       });
 
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        setStatusMessage("Execution failed");
-        setStdout(data.stdout ?? "");
-        setStderr(
-          data.stderr ??
-            `Execution service returned ${response.status} ${response.statusText}`
-        );
-      } else {
+      const data = (await response.json().catch(() => ({}))) as Record<
+        string,
+        unknown
+      >;
+
+      const apiResult: ResultState = {
+        stdout:
+          typeof data.stdout === "string"
+            ? data.stdout
+            : "Execution succeeded with no stdout.",
+        stderr: typeof data.stderr === "string" ? data.stderr : "",
+        exitCode: typeof data.exitCode === "number" ? data.exitCode : null,
+        success: typeof data.success === "boolean" ? data.success : null,
+      };
+
+      if (response.ok) {
         setStatusMessage("Execution complete");
-        setStdout(data.stdout ?? "Execution succeeded with no stdout.");
-        setStderr(data.stderr ?? "");
+      } else {
+        setStatusMessage("Execution failed");
+        if (!apiResult.stderr) {
+          apiResult.stderr = `Execution service returned ${response.status} ${response.statusText}`;
+        }
       }
+
+      setResult(apiResult);
     } catch (error) {
       console.error("Run request failed", error);
       setStatusMessage("Network error");
-      setStdout("");
-      setStderr("Unable to reach the execution service.");
+      setResult({ stdout: "", stderr: "", exitCode: null, success: false });
+      setNetworkError(
+        "Unable to reach the execution service. Check your connection and try again."
+      );
     } finally {
       setIsRunning(false);
     }
@@ -57,8 +90,8 @@ export default function HomePage() {
             Run Python code in your browser with a sandboxed backend
           </h1>
           <p className="text-lg text-[var(--muted)]">
-            A minimal environment to write Python snippets, execute them safely, and see the
-            results at a glance.
+            A minimal environment to write Python snippets, execute them safely, and
+            see the results at a glance.
           </p>
         </header>
 
@@ -78,42 +111,21 @@ export default function HomePage() {
                   onClick={handleRunClick}
                   className="flex items-center gap-2 rounded-full bg-[var(--accent)] px-6 py-2 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
                 >
-                  {isRunning ? "Running..." : "Run code"}
+                  {isRunning ? "Running..." : "Run"}
                 </button>
               </div>
             </div>
 
-            <div className="flex-1 space-y-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-inner">
-              <div className="flex items-center justify-between">
-                <h3 className="text-lg font-semibold">Output panel</h3>
-                <span
-                  className="rounded-full border border-[var(--border)] px-3 py-1 text-[0.6rem] uppercase tracking-[0.3em] text-[var(--muted)]"
-                >
-                  stdout / stderr
-                </span>
-              </div>
-              <div className="space-y-3">
-                <div className="rounded-2xl border border-dashed border-[var(--border)] bg-white/40 p-4 text-sm text-[var(--foreground)]">
-                  <p className="font-mono text-xs leading-relaxed text-[var(--foreground)] whitespace-pre-wrap">
-                    {stdout || "No stdout yet."}
-                  </p>
-                </div>
-                <div
-                  className={`rounded-2xl border px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
-                    stderr
-                      ? "border-red-300 bg-red-50 text-red-700"
-                      : "border-[var(--border)] bg-[var(--surface-alt)] text-[var(--muted)]"
-                  }`}
-                >
-                  <span className="font-semibold">stderr</span>
-                  <p className="mt-1 font-mono text-xs">
-                    {stderr || "No errors detected."}
-                  </p>
-                </div>
-              </div>
-              <div className="text-xs text-[var(--muted)]">
-                Execution status: <span className="font-semibold">{statusMessage}</span>
-              </div>
+            <div className="flex-1">
+              <OutputPanel
+                stdout={result.stdout}
+                stderr={result.stderr}
+                exitCode={result.exitCode}
+                success={result.success}
+                statusMessage={statusMessage}
+                isRunning={isRunning}
+                networkError={networkError}
+              />
             </div>
           </div>
         </section>

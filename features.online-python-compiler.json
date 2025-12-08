@@ -102,12 +102,12 @@
       "id": "error-handling-network",
       "title": "Network error handling",
       "description": "Gracefully handle failed API calls and show a friendly error message.",
-      "implemented": false,
+      "implemented": true,
       "tests": [
         {
           "id": "network-error-message",
           "description": "If /api/run-python returns a 5xx or network error, the UI shows a non-technical error message and suggests retrying.",
-          "implemented": false
+          "implemented": true
         }
       ]
     },
