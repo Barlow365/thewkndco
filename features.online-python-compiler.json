@@ -84,17 +84,17 @@
       "id": "output-panel-display",
       "title": "Output panel display",
       "description": "A dedicated output panel to show stdout, stderr, and a simple status label.",
-      "implemented": false,
+      "implemented": true,
       "tests": [
         {
           "id": "output-shows-stdout",
           "description": "After a successful run, stdout appears clearly in the output panel.",
-          "implemented": false
+          "implemented": true
         },
         {
           "id": "output-shows-stderr",
           "description": "If there is an error, stderr is displayed in a visually distinct way (e.g. different section or style).",
-          "implemented": false
+          "implemented": true
         }
       ]
     },

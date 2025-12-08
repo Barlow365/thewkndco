@@ -5,12 +5,14 @@ export default function HomePage() {
   const [code, setCode] = useState(DEFAULT_SNIPPET);
   const [isRunning, setIsRunning] = useState(false);
   const [statusMessage, setStatusMessage] = useState("Idle");
-  const [outputLog, setOutputLog] = useState("Awaiting execution...");
+  const [stdout, setStdout] = useState("Awaiting execution...");
+  const [stderr, setStderr] = useState("");
 
   const handleRunClick = async () => {
     setIsRunning(true);
     setStatusMessage("Running code...");
-    setOutputLog("Sending code to execution service...");
+    setStdout("Sending code to execution service...");
+    setStderr("");
 
     try {
       const response = await fetch("/api/run-python", {
@@ -24,18 +26,21 @@ export default function HomePage() {
       const data = await response.json().catch(() => ({}));
       if (!response.ok) {
         setStatusMessage("Execution failed");
-        setOutputLog(
+        setStdout(data.stdout ?? "");
+        setStderr(
           data.stderr ??
             `Execution service returned ${response.status} ${response.statusText}`
         );
       } else {
         setStatusMessage("Execution complete");
-        setOutputLog(data.stdout ?? "Execution succeeded with no stdout.");
+        setStdout(data.stdout ?? "Execution succeeded with no stdout.");
+        setStderr(data.stderr ?? "");
       }
     } catch (error) {
       console.error("Run request failed", error);
       setStatusMessage("Network error");
-      setOutputLog("Unable to reach the execution service.");
+      setStdout("");
+      setStderr("Unable to reach the execution service.");
     } finally {
       setIsRunning(false);
     }
@@ -81,12 +86,34 @@ export default function HomePage() {
             <div className="flex-1 space-y-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-inner">
               <div className="flex items-center justify-between">
                 <h3 className="text-lg font-semibold">Output panel</h3>
-                <span className="text-xs uppercase tracking-[0.35em] text-[var(--muted)]">stdout</span>
+                <span
+                  className="rounded-full border border-[var(--border)] px-3 py-1 text-[0.6rem] uppercase tracking-[0.3em] text-[var(--muted)]"
+                >
+                  stdout / stderr
+                </span>
               </div>
-              <div className="rounded-2xl border border-dashed border-[var(--border)] bg-white/40 p-4 text-sm text-[var(--muted)]">
-                <p className="whitespace-pre-wrap">{outputLog}</p>
+              <div className="space-y-3">
+                <div className="rounded-2xl border border-dashed border-[var(--border)] bg-white/40 p-4 text-sm text-[var(--foreground)]">
+                  <p className="font-mono text-xs leading-relaxed text-[var(--foreground)] whitespace-pre-wrap">
+                    {stdout || "No stdout yet."}
+                  </p>
+                </div>
+                <div
+                  className={`rounded-2xl border px-4 py-3 text-sm leading-relaxed whitespace-pre-wrap ${
+                    stderr
+                      ? "border-red-300 bg-red-50 text-red-700"
+                      : "border-[var(--border)] bg-[var(--surface-alt)] text-[var(--muted)]"
+                  }`}
+                >
+                  <span className="font-semibold">stderr</span>
+                  <p className="mt-1 font-mono text-xs">
+                    {stderr || "No errors detected."}
+                  </p>
+                </div>
               </div>
-              <div className="text-xs text-[var(--muted)]">Execution status: {statusMessage}</div>
+              <div className="text-xs text-[var(--muted)]">
+                Execution status: <span className="font-semibold">{statusMessage}</span>
+              </div>
             </div>
           </div>
         </section>
