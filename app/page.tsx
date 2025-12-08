@@ -1,96 +1,58 @@
-// app/page.tsx
-import Link from "next/link";
-
-export default function HomePage() {
+﻿export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-white via-[#f6f3ff] to-white">
-      {/* Hero */}
-      <section className="mx-auto flex max-w-5xl flex-col items-center px-4 pb-20 pt-16 text-center">
-        <span className="mb-4 inline-flex items-center rounded-full bg-slate-900 text-slate-50 px-4 py-1 text-xs font-medium uppercase tracking-[0.18em]">
-          Production-Ready SaaS Starter
-        </span>
+    <main className="min-h-screen bg-[var(--surface)] text-[var(--foreground)]">
+      <div className="mx-auto flex max-w-5xl flex-col gap-10 px-4 py-12">
+        <header className="space-y-4 text-center">
+          <p className="text-xs font-semibold uppercase tracking-[0.5em] text-[var(--muted)]">
+            Online Python Compiler
+          </p>
+          <h1 className="text-4xl font-bold leading-tight tracking-tight text-[var(--foreground)]">
+            Run Python code in your browser with a sandboxed backend
+          </h1>
+          <p className="text-lg text-[var(--muted)]">
+            A minimal environment to write Python snippets, execute them safely, and see the
+            results at a glance.
+          </p>
+        </header>
 
-        <h1 className="bg-gradient-to-r from-[#7b5cff] via-[#c55bff] to-[#ff5fb3] bg-clip-text text-5xl font-extrabold tracking-tight text-transparent sm:text-6xl">
-          WKND_CO
-        </h1>
+        <section className="rounded-3xl border border-[var(--border)] bg-[var(--card)] p-8 shadow-lg shadow-slate-200/60">
+          <div className="flex flex-col gap-6 lg:flex-row">
+            <div className="flex-1 space-y-4">
+              <div className="flex items-center justify-between">
+                <h2 className="text-xl font-semibold">Editor area</h2>
+                <span className="text-sm text-[var(--muted)]">Python</span>
+              </div>
+              <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--surface-alt)] p-5 text-sm text-[var(--muted)]">
+                <p className="text-[var(--muted)]">
+                  Placeholder for the code editor. Start writing Python code to see live output.
+                </p>
+              </div>
+              <div className="flex items-center justify-between">
+                <p className="text-sm text-[var(--muted)]">Ready to run</p>
+                <button
+                  type="button"
+                  className="rounded-full bg-[var(--accent)] px-6 py-2 text-sm font-semibold text-white transition hover:opacity-90"
+                >
+                  Run code
+                </button>
+              </div>
+            </div>
 
-        <p className="mt-2 text-lg font-semibold text-sky-700">
-          Supabase • Next.js • TypeScript
-        </p>
-
-        <p className="mt-6 max-w-2xl text-base text-slate-700 sm:text-lg">
-          A production-ready authentication and paywall system built on Next.js
-          App Router and Supabase. Launch your product faster with a real user
-          system, trials, and protected content already wired up.
-        </p>
-
-        <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-          <Link
-            href="/signup"
-            className="inline-flex items-center justify-center rounded-full bg-slate-900 px-6 py-3 text-sm font-semibold text-slate-50 shadow-lg shadow-slate-900/30 transition hover:translate-y-0.5 hover:bg-slate-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
-          >
-            Get Started Free
-            <span className="ml-2 text-base">↗</span>
-          </Link>
-
-          <Link
-            href="/content"
-            className="inline-flex items-center justify-center rounded-full border border-slate-300 bg-white px-6 py-3 text-sm font-semibold text-slate-900 shadow-sm transition hover:bg-slate-50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900"
-          >
-            Browse Content
-          </Link>
-        </div>
-
-        <p className="mt-4 text-xs font-medium uppercase tracking-[0.18em] text-slate-500">
-          14-day premium trial • cancel anytime
-        </p>
-      </section>
-
-      {/* Features */}
-      <section className="mx-auto mb-20 max-w-5xl px-4">
-        <h2 className="text-center text-2xl font-semibold text-slate-900">
-          Start building today
-        </h2>
-        <p className="mt-2 text-center text-sm text-slate-600">
-          Complete authentication, paywall system, and user management already
-          wired to Supabase.
-        </p>
-
-        <div className="mt-10 grid gap-6 md:grid-cols-3">
-          {/* Next.js App Router */}
-          <div className="rounded-2xl border border-slate-100 bg-white/80 p-5 shadow-sm shadow-slate-900/5 backdrop-blur">
-            <h3 className="text-sm font-semibold text-slate-900">
-              Next.js App Router
-            </h3>
-            <p className="mt-2 text-sm text-slate-600">
-              Built with the latest Next.js 14+ App Router patterns for fast,
-              modern, and SEO-friendly apps.
-            </p>
+            <div className="flex-1 space-y-4 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6 shadow-inner">
+              <div className="flex items-center justify-between">
+                <h3 className="text-lg font-semibold">Output panel</h3>
+                <span className="text-xs uppercase tracking-[0.35em] text-[var(--muted)]">stdout</span>
+              </div>
+              <div className="rounded-2xl border border-dashed border-[var(--border)] bg-white/40 p-4 text-sm text-[var(--muted)]">
+                <p>Standard output appears here along with errors or warnings.</p>
+              </div>
+              <div className="text-xs text-[var(--muted)]">
+                Execution status, runtime, and exit code will be shown after each run.
+              </div>
+            </div>
           </div>
-
-          {/* Supabase Auth */}
-          <div className="rounded-2xl border border-slate-100 bg-white/80 p-5 shadow-sm shadow-slate-900/5 backdrop-blur">
-            <h3 className="text-sm font-semibold text-slate-900">
-              Supabase Auth &amp; Paywall
-            </h3>
-            <p className="mt-2 text-sm text-slate-600">
-              Secure email/password auth, protected routes, and content tiers
-              (free, premium, enterprise) are ready out of the box.
-            </p>
-          </div>
-
-          {/* TypeScript */}
-          <div className="rounded-2xl border border-slate-100 bg-white/80 p-5 shadow-sm shadow-slate-900/5 backdrop-blur">
-            <h3 className="text-sm font-semibold text-slate-900">
-              Fully Typed with TypeScript
-            </h3>
-            <p className="mt-2 text-sm text-slate-600">
-              Strong typing across the stack for safer refactors, better DX, and
-              fewer runtime surprises.
-            </p>
-          </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </main>
   );
 }

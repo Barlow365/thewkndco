@@ -1,0 +1,146 @@
+﻿{
+  "project": "online-python-compiler",
+  "version": 1,
+  "notes": "All tests start as not implemented. Coding agents must update these flags only after verifying behavior.",
+  "features": [
+    {
+      "id": "layout-landing-page",
+      "title": "Landing page layout",
+      "description": "A simple landing page at '/' showing title, description, editor area, run button, and output panel.",
+      "implemented": true,
+      "tests": [
+        {
+          "id": "layout-renders",
+          "description": "Visiting '/' renders a heading like 'Online Python Compiler' and the main UI sections (editor, run button, output).",
+          "implemented": true
+        },
+        {
+          "id": "layout-responsive",
+          "description": "The layout is usable on a 375px wide viewport (no horizontal scrolling needed for core actions).",
+          "implemented": false
+        }
+      ]
+    },
+    {
+      "id": "editor-basic",
+      "title": "Basic code editor",
+      "description": "Embed a code editor component that allows users to edit Python code with a starter snippet.",
+      "implemented": false,
+      "tests": [
+        {
+          "id": "editor-shows-default-snippet",
+          "description": "On first load, the editor shows a default Python snippet such as 'print(\"Hello, world!\")'.",
+          "implemented": false
+        },
+        {
+          "id": "editor-allows-editing",
+          "description": "User can type in the editor and the changes are preserved until reload.",
+          "implemented": false
+        }
+      ]
+    },
+    {
+      "id": "run-button-behavior",
+      "title": "Run button behavior",
+      "description": "A run button that triggers code execution with loading state and disabled state while running.",
+      "implemented": false,
+      "tests": [
+        {
+          "id": "run-button-triggers-api-call",
+          "description": "Clicking 'Run' sends the current editor content to the backend API route.",
+          "implemented": false
+        },
+        {
+          "id": "run-button-loading-state",
+          "description": "While the request is in-flight, the button shows a loading indicator and is disabled.",
+          "implemented": false
+        }
+      ]
+    },
+    {
+      "id": "api-run-python",
+      "title": "Python execution API route",
+      "description": "Implement a Next.js API route /api/run-python that forwards code to a sandboxed Python execution service and returns stdout, stderr, and exit status.",
+      "implemented": false,
+      "tests": [
+        {
+          "id": "api-accepts-code",
+          "description": "POST /api/run-python with a JSON body containing 'code' returns a JSON response.",
+          "implemented": false
+        },
+        {
+          "id": "api-returns-stdout",
+          "description": "Running simple code like 'print(\"Hello\")' returns stdout containing 'Hello'.",
+          "implemented": false
+        },
+        {
+          "id": "api-handles-errors",
+          "description": "Submitting invalid Python (e.g. 'pritn(\"Hi\")') returns stderr with a syntax or name error message.",
+          "implemented": false
+        }
+      ]
+    },
+    {
+      "id": "output-panel-display",
+      "title": "Output panel display",
+      "description": "A dedicated output panel to show stdout, stderr, and a simple status label.",
+      "implemented": false,
+      "tests": [
+        {
+          "id": "output-shows-stdout",
+          "description": "After a successful run, stdout appears clearly in the output panel.",
+          "implemented": false
+        },
+        {
+          "id": "output-shows-stderr",
+          "description": "If there is an error, stderr is displayed in a visually distinct way (e.g. different section or style).",
+          "implemented": false
+        }
+      ]
+    },
+    {
+      "id": "error-handling-network",
+      "title": "Network error handling",
+      "description": "Gracefully handle failed API calls and show a friendly error message.",
+      "implemented": false,
+      "tests": [
+        {
+          "id": "network-error-message",
+          "description": "If /api/run-python returns a 5xx or network error, the UI shows a non-technical error message and suggests retrying.",
+          "implemented": false
+        }
+      ]
+    },
+    {
+      "id": "minimal-styling",
+      "title": "Minimal but clean styling",
+      "description": "Apply basic styling for a clean, readable layout without heavy UI frameworks.",
+      "implemented": false,
+      "tests": [
+        {
+          "id": "styling-readable",
+          "description": "Text, editor, and output areas are visually distinct and readable on both light and dark OS themes.",
+          "implemented": false
+        }
+      ]
+    },
+    {
+      "id": "basic-accessibility",
+      "title": "Basic accessibility",
+      "description": "Ensure key interactive elements are keyboard-accessible and labeled.",
+      "implemented": false,
+      "tests": [
+        {
+          "id": "run-button-keyboard",
+          "description": "The Run button can be focused and activated via keyboard (e.g. Enter/Space).",
+          "implemented": false
+        },
+        {
+          "id": "aria-labels",
+          "description": "Editor and output sections have appropriate labels or headings for screen readers.",
+          "implemented": false
+        }
+      ]
+    }
+  ]
+}

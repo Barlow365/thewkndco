@@ -7,6 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
+    "test": "echo \"No automated tests yet\" && exit 0",
     "setup": "ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/setup-database.ts",
     "seed": "ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/seed-content.ts"
   },
