@@ -13,8 +13,8 @@ It tracks:
 
 - Project: Online Python Compiler (Next.js)
 - Status: In progress
-- Last Updated: 2025-12-07 18:00 UTC
-- Completed Features Count: 2
+- Last Updated: 2025-12-07 20:00 UTC
+- Completed Features Count: 3
 - Total Features Count: 8
 
 ---
@@ -25,7 +25,7 @@ It tracks:
 
 - `layout-landing-page`: implemented
 - `editor-basic`: implemented
-- `run-button-behavior`: not_started
+- `run-button-behavior`: implemented
 - `api-run-python`: not_started
 - `output-panel-display`: not_started
 - `error-handling-network`: not_started
@@ -37,6 +37,20 @@ It tracks:
 ## 3. Session Log
 
 > Append a new entry at the TOP for each session.
+
+### Session 2025-12-07 20:00 UTC
+- Date/Time: 2025-12-07 20:00 UTC
+- Features worked on:
+  - `run-button-behavior`  added a run handler that calls `/api/run-python`, shows loading state, disables the button while running, and streams output into the panel below.
+- Tests executed:
+  - Unit: `npm test`
+  - Puppeteer: none
+- Results:
+  - `npm test` is still a placeholder and exits successfully; run button now fires a POST request (with fallback messaging) and displays status/output, and the UI shows a disabled state while awaiting completion.
+- Git:
+  - Commit: `feat(run-button-behavior): implement loading state for run button`
+- Notes / Known Issues:
+  - The call to `/api/run-python` currently hits a missing route and reports the HTTP status until the API feature is implemented.
 
 ### Session 2025-12-07 18:00 UTC
 - Date/Time: 2025-12-07 18:00 UTC
@@ -86,6 +100,6 @@ It tracks:
 
 > Update this section at the end of each run with a short prioritized list.
 
-1. Implement feature: `run-button-behavior`
-2. Add real unit/Puppeteer tests for `layout-landing-page` and `editor-basic`
-3. Implement feature: `api-run-python`
+1. Implement feature: `api-run-python`
+2. Add real unit/Puppeteer tests for `layout-landing-page`, `editor-basic`, and `run-button-behavior`
+3. Implement feature: `output-panel-display`

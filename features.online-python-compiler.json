@@ -43,17 +43,17 @@
       "id": "run-button-behavior",
       "title": "Run button behavior",
       "description": "A run button that triggers code execution with loading state and disabled state while running.",
-      "implemented": false,
+      "implemented": true,
       "tests": [
         {
           "id": "run-button-triggers-api-call",
           "description": "Clicking 'Run' sends the current editor content to the backend API route.",
-          "implemented": false
+          "implemented": true
         },
         {
           "id": "run-button-loading-state",
           "description": "While the request is in-flight, the button shows a loading indicator and is disabled.",
-          "implemented": false
+          "implemented": true
         }
       ]
     },
