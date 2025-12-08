@@ -13,8 +13,8 @@ It tracks:
 
 - Project: Online Python Compiler (Next.js)
 - Status: In progress
-- Last Updated: 2025-12-07 22:00 UTC
-- Completed Features Count: 3
+- Last Updated: 2025-12-07 23:30 UTC
+- Completed Features Count: 4
 - Total Features Count: 8
 
 ---
@@ -26,7 +26,7 @@ It tracks:
 - `layout-landing-page`: implemented
 - `editor-basic`: implemented
 - `run-button-behavior`: implemented
-- `api-run-python`: not_started
+- `api-run-python`: implemented
 - `output-panel-display`: not_started
 - `error-handling-network`: not_started
 - `minimal-styling`: not_started
@@ -37,6 +37,20 @@ It tracks:
 ## 3. Session Log
 
 > Append a new entry at the TOP for each session.
+
+### Session 2025-12-07 23:30 UTC
+- Date/Time: 2025-12-07 23:30 UTC
+- Features worked on:
+  - `api-run-python`  added the `/api/run-python` route that runs the submitted code via the local Python interpreter (falls back gracefully if the interpreter is missing), returns stdout/stderr/exit code, and surfaces validation errors for empty payloads.
+- Tests executed:
+  - Unit: `npm test`
+  - Puppeteer: none
+- Results:
+  - Placeholder `npm test` still passes; the API now accepts JSON payloads with `code`, executes them through the interpreter, and returns structured output that the landing page can consume.
+- Git:
+  - Commit: `feat(api-run-python): add execution API route`
+- Notes / Known Issues:
+  - Execution uses the first available Python binary (`PYTHON_BIN`, `python3`, or `python`) and times out after 4 seconds; the client needs to re-fetch the results through the existing run button.
 
 ### Session 2025-12-07 22:00 UTC
 - Date/Time: 2025-12-07 22:00 UTC
@@ -114,6 +128,6 @@ It tracks:
 
 > Update this section at the end of each run with a short prioritized list.
 
-1. Implement feature: `api-run-python`
-2. Wire the real API into the run button
-3. Implement feature: `output-panel-display`
+1. Implement feature: `output-panel-display`
+2. Add real unit/Puppeteer tests for the existing experience (`layout-landing-page`, `editor-basic`, `run-button-behavior`, and the new API)
+3. Implement feature: `error-handling-network`

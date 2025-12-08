@@ -61,22 +61,22 @@
       "id": "api-run-python",
       "title": "Python execution API route",
       "description": "Implement a Next.js API route /api/run-python that forwards code to a sandboxed Python execution service and returns stdout, stderr, and exit status.",
-      "implemented": false,
+      "implemented": true,
       "tests": [
         {
           "id": "api-accepts-code",
           "description": "POST /api/run-python with a JSON body containing 'code' returns a JSON response.",
-          "implemented": false
+          "implemented": true
         },
         {
           "id": "api-returns-stdout",
           "description": "Running simple code like 'print(\"Hello\")' returns stdout containing 'Hello'.",
-          "implemented": false
+          "implemented": true
         },
         {
           "id": "api-handles-errors",
           "description": "Submitting invalid Python (e.g. 'pritn(\"Hi\")') returns stderr with a syntax or name error message.",
-          "implemented": false
+          "implemented": true
         }
       ]
     },
