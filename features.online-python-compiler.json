@@ -25,17 +25,17 @@
       "id": "editor-basic",
       "title": "Basic code editor",
       "description": "Embed a code editor component that allows users to edit Python code with a starter snippet.",
-      "implemented": false,
+      "implemented": true,
       "tests": [
         {
           "id": "editor-shows-default-snippet",
           "description": "On first load, the editor shows a default Python snippet such as 'print(\"Hello, world!\")'.",
-          "implemented": false
+          "implemented": true
         },
         {
           "id": "editor-allows-editing",
           "description": "User can type in the editor and the changes are preserved until reload.",
-          "implemented": false
+          "implemented": true
         }
       ]
     },

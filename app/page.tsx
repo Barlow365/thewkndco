@@ -1,4 +1,6 @@
-﻿export default function HomePage() {
+﻿import { Editor } from "@/components/Editor";
+
+export default function HomePage() {
   return (
     <main className="min-h-screen bg-[var(--surface)] text-[var(--foreground)]">
       <div className="mx-auto flex max-w-5xl flex-col gap-10 px-4 py-12">
@@ -22,11 +24,7 @@
                 <h2 className="text-xl font-semibold">Editor area</h2>
                 <span className="text-sm text-[var(--muted)]">Python</span>
               </div>
-              <div className="rounded-2xl border border-dashed border-[var(--border)] bg-[var(--surface-alt)] p-5 text-sm text-[var(--muted)]">
-                <p className="text-[var(--muted)]">
-                  Placeholder for the code editor. Start writing Python code to see live output.
-                </p>
-              </div>
+              <Editor />
               <div className="flex items-center justify-between">
                 <p className="text-sm text-[var(--muted)]">Ready to run</p>
                 <button
