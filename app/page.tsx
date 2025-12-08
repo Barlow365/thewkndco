@@ -1,6 +1,14 @@
 ﻿import { useState } from "react";
 import { DEFAULT_SNIPPET, Editor } from "@/components/Editor";
 
+const simulateRun = (code: string) =>
+  new Promise<{ stdout: string }>((resolve) => {
+    setTimeout(() => {
+      console.log("Simulated execution:", code);
+      resolve({ stdout: `Simulated output for ${code.split("\n")[0]}` });
+    }, 600);
+  });
+
 export default function HomePage() {
   const [code, setCode] = useState(DEFAULT_SNIPPET);
   const [isRunning, setIsRunning] = useState(false);
@@ -10,31 +18,16 @@ export default function HomePage() {
   const handleRunClick = async () => {
     setIsRunning(true);
     setStatusMessage("Running code...");
-    setOutputLog("Sending code to execution service...");
+    setOutputLog("Simulating code execution...");
 
     try {
-      const response = await fetch("/api/run-python", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ code }),
-      });
-
-      const data = await response.json().catch(() => ({}));
-      if (!response.ok) {
-        setStatusMessage("Execution failed");
-        setOutputLog(
-          data.stderr ??
-            `Execution service returned ${response.status} ${response.statusText}`
-        );
-      } else {
-        setStatusMessage("Execution complete");
-        setOutputLog(data.stdout ?? "Execution succeeded with no stdout.");
-      }
+      const result = await simulateRun(code);
+      setStatusMessage("Execution complete");
+      setOutputLog(result.stdout);
     } catch (error) {
-      setStatusMessage("Network error");
-      setOutputLog("Unable to reach the execution service.");
+      console.error("Run simulation failed", error);
+      setStatusMessage("Simulation failed");
+      setOutputLog("Unable to simulate execution.");
     } finally {
       setIsRunning(false);
     }

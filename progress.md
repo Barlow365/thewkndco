@@ -13,7 +13,7 @@ It tracks:
 
 - Project: Online Python Compiler (Next.js)
 - Status: In progress
-- Last Updated: 2025-12-07 20:00 UTC
+- Last Updated: 2025-12-07 22:00 UTC
 - Completed Features Count: 3
 - Total Features Count: 8
 
@@ -37,6 +37,20 @@ It tracks:
 ## 3. Session Log
 
 > Append a new entry at the TOP for each session.
+
+### Session 2025-12-07 22:00 UTC
+- Date/Time: 2025-12-07 22:00 UTC
+- Features worked on:
+  - `run-button-behavior`  swapped the fetch-based runner for `simulateRun`, keeping the editor state synced, showing "Running..." while the promise resolves, and logging simulated output returned after a short delay.
+- Tests executed:
+  - Unit: `npm test`
+  - Puppeteer: none
+- Results:
+  - Placeholder `npm test` still passes; the run button now uses the current editor text in the simulation, disables itself during the wait, and resets status/output when complete.
+- Git:
+  - Commit: `feat(run-button-behavior): add run button with loading state`
+- Notes / Known Issues:
+  - Simulation only logs the code and returns a canned message; real API wiring will happen next.
 
 ### Session 2025-12-07 20:00 UTC
 - Date/Time: 2025-12-07 20:00 UTC
@@ -101,5 +115,5 @@ It tracks:
 > Update this section at the end of each run with a short prioritized list.
 
 1. Implement feature: `api-run-python`
-2. Add real unit/Puppeteer tests for `layout-landing-page`, `editor-basic`, and `run-button-behavior`
+2. Wire the real API into the run button
 3. Implement feature: `output-panel-display`
