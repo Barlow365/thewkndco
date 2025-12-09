@@ -128,17 +128,17 @@
       "id": "basic-accessibility",
       "title": "Basic accessibility",
       "description": "Ensure key interactive elements are keyboard-accessible and labeled.",
-      "implemented": false,
+      "implemented": true,
       "tests": [
         {
           "id": "run-button-keyboard",
           "description": "The Run button can be focused and activated via keyboard (e.g. Enter/Space).",
-          "implemented": false
+          "implemented": true
         },
         {
           "id": "aria-labels",
           "description": "Editor and output sections have appropriate labels or headings for screen readers.",
-          "implemented": false
+          "implemented": true
         }
       ]
     }

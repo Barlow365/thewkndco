@@ -109,6 +109,7 @@ export default function HomePage() {
                   type="button"
                   disabled={isRunning}
                   onClick={handleRunClick}
+                  aria-label="Run Python code"
                   className="flex items-center gap-2 rounded-full bg-[var(--accent)] px-6 py-2 text-sm font-semibold text-white transition hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-70"
                 >
                   {isRunning ? "Running..." : "Run"}
