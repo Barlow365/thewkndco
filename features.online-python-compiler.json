@@ -115,12 +115,12 @@
       "id": "minimal-styling",
       "title": "Minimal but clean styling",
       "description": "Apply basic styling for a clean, readable layout without heavy UI frameworks.",
-      "implemented": false,
+      "implemented": true,
       "tests": [
         {
           "id": "styling-readable",
           "description": "Text, editor, and output areas are visually distinct and readable on both light and dark OS themes.",
-          "implemented": false
+          "implemented": true
         }
       ]
     },

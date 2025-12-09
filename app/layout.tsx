@@ -14,7 +14,24 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className="theme-light">
+    <html lang="en" suppressHydrationWarning>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              (function() {
+                const STORAGE_KEY = "wknd-theme";
+                const stored = localStorage.getItem(STORAGE_KEY);
+                const systemPreference = window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+                const theme = stored || systemPreference;
+                document.documentElement.classList.toggle("theme-dark", theme === "dark");
+                document.documentElement.classList.toggle("theme-light", theme === "light");
+                document.documentElement.dataset.theme = theme;
+              })();
+            `,
+          }}
+        />
+      </head>
       <body className="min-h-screen bg-[var(--background)] text-[var(--foreground)] antialiased transition-colors">
         <header className="border-b border-[var(--border)] bg-[var(--surface-veil)] backdrop-blur">
           <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 text-sm">
