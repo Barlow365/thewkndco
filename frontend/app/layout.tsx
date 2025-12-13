@@ -4,8 +4,8 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import "@/styles/globals.css";
 
 export const metadata: Metadata = {
-  title: "Online Python Compiler",
-  description: "Browser-based Python editor with a sandboxed execution backend.",
+  title: "The WKND Co",
+  description: "Events, stays, and curated weekend packages with concierge support.",
 };
 
 export default function RootLayout({
@@ -37,14 +37,14 @@ export default function RootLayout({
           <div className="mx-auto flex max-w-5xl items-center justify-between px-4 py-3 text-sm">
             <div className="flex items-center gap-2 font-semibold text-[var(--foreground)]">
               <span className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-[var(--accent)] text-xs font-bold text-white">
-                PY
+                WK
               </span>
-              <span>Online Python Compiler</span>
+              <span>The WKND Co</span>
             </div>
 
             <nav className="flex items-center gap-3">
               <ThemeToggle />
-              <span className="text-xs font-medium text-[var(--muted)]">sandboxed execution</span>
+              <span className="text-xs font-medium text-[var(--muted)]">concierge + packages</span>
             </nav>
           </div>
         </header>
