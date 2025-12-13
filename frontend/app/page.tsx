@@ -1,20 +1,19 @@
 'use client';
 
 import { useEffect, useState } from 'react';
+import { AuthStatus } from '@/components/AuthStatus';
+import { apiFetch, healthCheck } from '@/lib/api';
 
-const API_BASE =
-  process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
+const API_BASE = process.env.NEXT_PUBLIC_API_BASE_URL || 'http://localhost:8000';
 
 export default function HomePage() {
   const [health, setHealth] = useState<string>('Checking API...');
   const [error, setError] = useState<string | null>(null);
+  const [whoami, setWhoami] = useState<string>('Unknown');
 
   useEffect(() => {
-    const url = `${API_BASE}/health`;
-    fetch(url)
-      .then(async (r) => {
-        if (!r.ok) throw new Error(`API error ${r.status}`);
-        const data = await r.json().catch(() => ({}));
+    healthCheck()
+      .then((data) => {
         setHealth(data.status ? `OK: ${data.status}` : 'OK');
       })
       .catch((e) => {
@@ -23,12 +22,22 @@ export default function HomePage() {
       });
   }, []);
 
+  const checkProtected = async () => {
+    try {
+      const res = await apiFetch('/api/me');
+      setWhoami(JSON.stringify(res));
+      setError(null);
+    } catch (e: any) {
+      setWhoami('Unauthorized');
+      setError(e?.message || 'Request failed');
+    }
+  };
+
   return (
     <main style={{ maxWidth: 960, margin: '0 auto', padding: 24 }}>
       <h1 style={{ fontSize: 40, marginBottom: 8 }}>The WKND Co</h1>
       <p style={{ fontSize: 18, marginTop: 0 }}>
-        Events + stays + curated weekend packages — supported by real concierge
-        & promoters.
+        Events, stays, and curated weekend packages supported by real concierge and promoters.
       </p>
 
       <section
@@ -53,15 +62,28 @@ export default function HomePage() {
             </div>
           )}
         </div>
+        <AuthStatus />
+        <button
+          onClick={checkProtected}
+          style={{
+            marginTop: 12,
+            padding: '8px 12px',
+            borderRadius: 8,
+            border: '1px solid #111',
+          }}
+        >
+          Call protected /api/me
+        </button>
+        <div style={{ marginTop: 8, fontSize: 14 }}>Response: {whoami}</div>
       </section>
 
       <section style={{ marginTop: 28 }}>
         <h2>Start</h2>
         <ol style={{ lineHeight: 1.8 }}>
-          <li>Browse events (coming next)</li>
+          <li>Browse events</li>
           <li>Select a stay (curated inventory first)</li>
           <li>Bundle into a WKND Package</li>
-          <li>Book + chat with a concierge</li>
+          <li>Book and chat with a concierge</li>
         </ol>
       </section>
     </main>
