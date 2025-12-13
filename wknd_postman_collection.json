@@ -1,0 +1,88 @@
+{
+  "info": {
+    "name": "WKND Co MVP API",
+    "description": "Postman collection for core MVP endpoints of WKND Co",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Edit Package Components",
+      "request": {
+        "method": "PUT",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "https://api.wknd.co/api/packages/{{package_id}}",
+          "host": [
+            "https://api.wknd.co"
+          ],
+          "path": [
+            "api",
+            "packages",
+            "{{package_id}}"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"lodging_id\": \"123e4567-e89b-12d3-a456-426614174000\",\n  \"event_ids\": [\n    \"111e4567-e89b-12d3-a456-426614174000\",\n    \"222e4567-e89b-12d3-a456-426614174000\"\n  ],\n  \"addons\": {\n    \"dinner\": \"yes\",\n    \"transport\": \"no\"\n  }\n}"
+        }
+      }
+    },
+    {
+      "name": "Send Message",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "https://api.wknd.co/api/messages",
+          "host": [
+            "https://api.wknd.co"
+          ],
+          "path": [
+            "api",
+            "messages"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"sender_id\": \"user-uuid\",\n  \"receiver_id\": \"agent-uuid\",\n  \"package_id\": \"package-uuid\",\n  \"message_text\": \"Can you swap out the hotel?\"\n}"
+        }
+      }
+    },
+    {
+      "name": "Create Booking",
+      "request": {
+        "method": "POST",
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "url": {
+          "raw": "https://api.wknd.co/api/bookings",
+          "host": [
+            "https://api.wknd.co"
+          ],
+          "path": [
+            "api",
+            "bookings"
+          ]
+        },
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"package_id\": \"package-uuid\",\n  \"user_id\": \"user-uuid\",\n  \"payment_token\": \"tok_test_abc123\"\n}"
+        }
+      }
+    }
+  ]
+}
