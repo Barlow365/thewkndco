@@ -1,0 +1,40 @@
+{
+  "name": "frontend",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint",
+    "test": "echo \"No automated tests yet\" && exit 0",
+    "setup": "ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/setup-database.ts",
+    "seed": "ts-node --compiler-options '{\"module\":\"commonjs\"}' scripts/seed-content.ts"
+  },
+  "dependencies": {
+    "@supabase/auth-helpers-nextjs": "^0.6.1",
+    "@supabase/ssr": "^0.7.0",
+    "@supabase/supabase-js": "^2.84.0",
+    "lucide-react": "^0.555.0",
+    "next": "16.0.3",
+    "react": "19.2.0",
+    "react-dom": "19.2.0",
+    "react-markdown": "^10.1.0",
+    "rehype-raw": "^7.0.0",
+    "remark-gfm": "^4.0.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.17",
+    "@types/node": "^20.19.25",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.4.22",
+    "dotenv": "^17.2.3",
+    "eslint": "^9",
+    "eslint-config-next": "16.0.3",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17",
+    "ts-node": "^10.9.2",
+    "typescript": "^5"
+  }
+}
